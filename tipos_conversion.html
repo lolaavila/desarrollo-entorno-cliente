@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Tipos y Conversiones en JavaScript</title>
+</head>
+<body>
+    <h1>Tipos y Conversiones en JavaScript</h1>
+    <script>
+        // Declaración de variables 
+
+        var numero = 42;                // Número
+        var cadena = "Hola mundo";      // Cadena de texto
+        var booleano = true;            // Booleano
+        var nulo = null;                // Null
+        var indefinido;                 // Undefined
+
+        // Mostrar el tipo de cada variable en consola
+
+        console.log(typeof numero);      // numero
+        console.log(typeof cadena);      // string
+        console.log(typeof booleano);    // boolean
+        console.log(typeof nulo);        // object
+        console.log(typeof indefinido);  // undefined
+
+        // Devuelve una cadena 
+
+        let numAString = String(123);
+        console.log(numAString);         
+        console.log(typeof numAString);  
+
+        // Cadena a número
+
+        let stringANum = Number("123");
+        console.log(stringANum);         
+        console.log(typeof stringANum);  
+
+        // Booleanos
+        
+        let boolDeCero = Boolean(0);
+        console.log(boolDeCero);         // devuelve false
+
+        let boolDeTexto = Boolean("texto");
+        console.log(boolDeTexto);        // devuelve true
+    </script>
+</body>
+</html>
