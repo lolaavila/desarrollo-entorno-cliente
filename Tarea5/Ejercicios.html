@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Tarea 5 - Manipulación del DOM</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+
+  <style>
+    body {
+      background-color: #f8f9fa;
+    }
+
+    .ejercicio {
+      background-color: #ffffff;
+      border: 2px solid #dee2e6;
+      border-radius: 10px;
+      padding: 20px;
+      margin-bottom: 30px;
+      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+    }
+
+    .resaltado {
+      background-color: yellow;
+    }
+
+    .error {
+      color: red;
+      display: none;
+    }
+
+    .completada {
+      text-decoration: line-through;
+      color: gray;
+    }
+
+  </style>
+</head>
+
+<body class="p-4">
+  <div class="container">
+    <h1 class>Práctica de Manipulación del DOM</h1>
+
+    <!-- EJERCICIO 1 -->
+    <section class="ejercicio">
+      <h3>Ejercicio 1 - Selectores y modificación de elementos</h3>
+      <p>Primer párrafo original.</p>
+      <p>Segundo párrafo.</p>
+      <p>Tercer párrafo.</p>
+      <button id="btnEj1" class="btn btn-primary mt-2">Aplicar cambios del Ejercicio 1</button>
+    </section>
+
+    <!-- EJERCICIO 2 -->
+    <section class="ejercicio">
+      <h3>Ejercicio 2 - Crear y eliminar nodos</h3>
+      <div id="contenido">
+        <p>Pulsa los botones para añadir o eliminar párrafos.</p>
+      </div>
+      <button id="btnAdd" class="btn btn-primary mt-2">Añadir párrafo</button>
+      <button id="btnRemove" class="btn btn-primary mt-2">Eliminar último párrafo</button>
+    </section>
+
+    <!-- EJERCICIO 3 -->
+    <section class="ejercicio">
+      <h3>Ejercicio 3 - Manejo de eventos</h3>
+      <p>Coloca el ratón sobre estos párrafos para ver el efecto.</p>
+      <p>Este es otro párrafo con el mismo evento.</p>
+    </section>
+
+    <!-- EJERCICIO 4 -->
+    <section class="ejercicio">
+      <h3>Ejercicio 4 - Inputs y actualización dinámica</h3>
+      <input type="text" id="nuevoTexto" placeholder="Introduce nuevo texto" class="form-control w-50 d-inline">
+      <button id="btnCambiarTexto" class="btn btn-primary">Cambiar texto</button>
+      <p id="mensajeError" class="error mt-2">El campo está vacío</p>
+    </section>
+
+    <!-- EJERCICIO 5 -->
+    <section class="ejercicio">
+      <h3>Ejercicio 5 - Lista dinámica</h3>
+      <input type="text" id="tareaInput" placeholder="Escribe una tarea" class="form-control w-50 d-inline">
+      <button id="btnAgregarTarea" class="btn btn-primary">Añadir tarea</button>
+      <button id="btnBorrarCompletadas" class="btn btn-primary">Borrar completadas</button>
+
+      <ul id="listaTareas" class="list-group mt-3"></ul>
+    </section>
+  </div>
+
+  <script>
+    // Ejercicio 1
+    document.getElementById("btnEj1").addEventListener("click", () => {
+      const parrafos = document.querySelectorAll("section:nth-of-type(1) p");
+      parrafos[0].textContent = "Texto modificado por JavaScript";
+      parrafos[1].classList.add("resaltado");
+      parrafos[2].style.color = "red";
+    });
+
+    // Ejercicio 2
+    const contenido = document.getElementById("contenido");
+
+    document.getElementById("btnAdd").addEventListener("click", () => {
+      const nuevoParrafo = document.createElement("p");
+      nuevoParrafo.textContent = "Nuevo párrafo añadido";
+      contenido.appendChild(nuevoParrafo);
+    });
+
+    document.getElementById("btnRemove").addEventListener("click", () => {
+      if (contenido.lastElementChild) {
+        contenido.removeChild(contenido.lastElementChild);
+      }
+    });
+
+    // Ejercicio 3
+    const parrafosEvento = document.querySelectorAll("section:nth-of-type(3) p");
+
+    parrafosEvento.forEach(p => {
+      p.addEventListener("mouseenter", () => {
+        p.style.backgroundColor = "#e0e0e0";
+      });
+      p.addEventListener("mouseleave", () => {
+        p.style.backgroundColor = "";
+      });
+    });
+
+    // Ejercicio 4
+
+    document.getElementById("btnCambiarTexto").addEventListener("click", () => {
+      const nuevoTexto = document.getElementById("nuevoTexto").value.trim();
+      const mensajeError = document.getElementById("mensajeError");
+      const primerParrafo = document.querySelector("section:nth-of-type(1) p");
+
+      if (nuevoTexto === "") {
+        mensajeError.style.display = "block";
+      } else {
+        primerParrafo.textContent = nuevoTexto;
+        mensajeError.style.display = "none";
+      }
+    });
+
+    // Ejercicio 5
+    const tareaInput = document.getElementById("tareaInput");
+    const listaTareas = document.getElementById("listaTareas");
+
+    document.getElementById("btnAgregarTarea").addEventListener("click", () => {
+      const texto = tareaInput.value.trim();
+      if (texto === "") return;
+
+      const li = document.createElement("li");
+      li.textContent = texto;
+      li.classList.add("list-group-item");
+      
+      li.addEventListener("click", () => {
+        li.classList.toggle("completada");
+      });
+
+      listaTareas.appendChild(li);
+      tareaInput.value = "";
+    });
+
+    document.getElementById("btnBorrarCompletadas").addEventListener("click", () => {
+      const completadas = document.querySelectorAll(".completada");
+      completadas.forEach(li => li.remove());
+    });
+  </script>
+</body>
+</html>
