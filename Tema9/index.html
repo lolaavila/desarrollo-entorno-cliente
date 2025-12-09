@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <style>
+        .is-valid {
+            border: 2px solid greenyellow;
+        }
+        .is-invalid {
+            border: 2px solid red;
+        }
+
+    </style>
+</head>
+
+<body class="bg-light">
+
+<div class="container mt-5">
+
+    <div class="card shadow p-4">
+        <h2 class="text-center" id="saludo"></h2>
+
+        <h3 class="text-center mb-4">Formulario de registro</h3>
+    <form id="form">
+
+        <label>Nombre de usuario:</label><br>
+        <input type="text" id="nombre">
+        <span id="msg-nombre" class="msg"></span><br><br>
+        <div id="estado" class="estado"></div>
+
+        <label>Email:</label><br>
+        <input type="text" id="email">
+        <span id="msg-email" class="msg"></span><br><br>
+        <div id="estado" class="estado"></div>
+
+        <label>Contraseña:</label><br>
+        <input type="password" id="pass">
+        <span id="msg-pass" class="msg"></span><br><br>
+        <div id="estado" class="estado"></div>
+
+        <label>Edad:</label><br>
+        <input type="text" id="edad">
+        <span id="msg-edad" class="msg"></span><br><br>
+        <div id="estado" class="estado"></div>
+
+        <button type="submit">Enviar</button>
+    </form>
+
+    <br>
+    <button id="delCookie">Eliminar cookie</button>
+
+    <script src="script.js"></script>
+</body>
+
+</html>
