@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Login</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+
+<div class="container mt-5">
+    <h2 class="mb-4 text-center">Formulario de Login</h2>
+    <div id="alertas"></div>
+    <div id="spinner" class="text-center mb-3 d-none">
+        <div class="spinner-border text-primary" role="status">
+            <span class="visually-hidden">Cargando...</span>
+        </div>
+        <p>Validando credenciales...</p>
+    </div>
+
+    <form id="loginForm">
+        <div class="mb-3">
+            <label for="email" class="form-label">Email</label>
+            <input type="email" id="email" class="form-control" placeholder="test@medac.es">
+        </div>
+
+        <div class="mb-3">
+            <label for="password" class="form-label">Contraseña</label>
+            <input type="password" id="password" class="form-control" placeholder="1234">
+        </div>
+
+        <button type="submit" class="btn btn-primary w-100" id="btnLogin">Iniciar sesión</button>
+    </form>
+</div>
+
+<script>
+    const form = document.getElementById("loginForm");
+    const alertas = document.getElementById("alertas");
+    const spinner = document.getElementById("spinner");
+    const btnLogin = document.getElementById("btnLogin");
+    const mensaje = "Login correcto. Bienvenido.";
+
+    form.addEventListener("submit", function (e) {
+        e.preventDefault(); 
+        alertas.innerHTML = "";
+        const email = document.getElementById("email").value.trim();
+        const password = document.getElementById("password").value.trim();
+
+        if (email === "" || password === "") {
+            mostrarAlerta("Todos los campos son obligatorios", "danger");
+            return;
+        }
+
+        spinner.classList.remove("d-none");
+        btnLogin.disabled = true;
+        login(email, password)
+            .then(() => {
+                mostrarAlerta(mensaje, "success");
+            })
+            .catch(error => {
+                mostrarAlerta(error, "danger");
+            })
+            .finally(() => {
+                spinner.classList.add("d-none");
+                btnLogin.disabled = false;
+            });
+    });
+
+    // Función de login 
+    function login(email, password) {
+        return new Promise((resolve, reject) => {
+            setTimeout(() => {
+                if (email === "test@medac.es" && password === "1234") {
+                    resolve("Login correcto. Bienvenido.");
+                } else {
+                    reject("Credenciales incorrectas.");
+                }
+            }, 1500); 
+        });
+    }
+
+    function mostrarAlerta(mensaje, tipo) {
+        alertas.innerHTML = `
+            <div class="alert alert-${tipo}" role="alert">
+                ${mensaje}
+            </div>
+        `;
+    }
+</script>
+
+</body>
+</html>
