@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <title>Práctica TypeScript</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <!-- Bootstrap 5 -->
+  <link
+    href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
+    rel="stylesheet"
+  />
+</head>
+<body class="bg-light">
+
+<div class="container py-5">
+  <h1 class="text-center mb-4">Práctica de TypeScript</h1>
+  <p class="text-center text-muted mb-5">
+    Pulsa un botón para ejecutar cada ejercicio (ver resultados en consola).
+  </p>
+
+  <div class="row g-3">
+
+    <div class="col-md-6 col-lg-4">
+      <button class="btn btn-primary w-100" onclick="cargarEjercicio('ej1.js')">
+        Ejercicio 1 - Tipos básicos
+      </button>
+    </div>
+
+    <div class="col-md-6 col-lg-4">
+      <button class="btn btn-primary w-100" onclick="cargarEjercicio('ej2.js')">
+        Ejercicio 2 - Funciones tipadas
+      </button>
+    </div>
+
+    <div class="col-md-6 col-lg-4">
+      <button class="btn btn-primary w-100" onclick="cargarEjercicio('ej3.js')">
+        Ejercicio 3 - Parámetros opcionales
+      </button>
+    </div>
+
+    <div class="col-md-6 col-lg-4">
+      <button class="btn btn-success w-100" onclick="cargarEjercicio('ej4.js')">
+        Ejercicio 4 - Interfaces
+      </button>
+    </div>
+
+    <div class="col-md-6 col-lg-4">
+      <button class="btn btn-success w-100" onclick="cargarEjercicio('ej5.js')">
+        Ejercicio 5 - Arrays de interfaces
+      </button>
+    </div>
+
+    <div class="col-md-6 col-lg-4">
+      <button class="btn btn-success w-100" onclick="cargarEjercicio('ej6.js')">
+        Ejercicio 6 - Clases y encapsulación
+      </button>
+    </div>
+
+    <div class="col-md-6 col-lg-4">
+      <button class="btn btn-warning w-100" onclick="cargarEjercicio('ej7.js')">
+        Ejercicio 7 - Clases e interfaces
+      </button>
+    </div>
+
+    <div class="col-md-6 col-lg-4">
+      <button class="btn btn-warning w-100" onclick="cargarEjercicio('ej8.js')">
+        Ejercicio 8 - Manejo de errores
+      </button>
+    </div>
+
+    <div class="col-md-6 col-lg-4">
+      <button class="btn btn-warning w-100" onclick="cargarEjercicio('ej9.js')">
+        Ejercicio 9 - unknown
+      </button>
+    </div>
+
+    <div class="col-md-6 col-lg-4">
+      <button class="btn btn-danger w-100" onclick="cargarEjercicio('ej10.js')">
+        Ejercicio 10 - Mini proyecto
+      </button>
+    </div>
+
+  </div>
+</div>
+
+<script>
+  function cargarEjercicio(archivo) {
+    const script = document.createElement("script");
+    script.src = archivo;
+    script.type = "module";
+    document.body.appendChild(script);
+    console.log("Ejecutando:", archivo);
+  }
+</script>
+
+</body>
+</html>
