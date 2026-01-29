@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<title>Ejercicios Storage - Bootstrap</title>
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body class="bg-light" id="body">
+
+<div class="container py-4">
+  <h1 class="text-center mb-4">Ejercicios localStorage y sessionStorage</h1>
+
+  <!-- ================= EJERCICIO 1 ================= -->
+  <div class="card mb-4">
+    <div class="card-header bg-primary text-white">
+      Ejercicio 1 - Preferencias de usuario (localStorage)
+    </div>
+    <div class="card-body">
+      <div class="mb-2">
+        <label for="e1Nombre" class="form-label">Nombre:</label>
+        <input type="text" id="e1Nombre" class="form-control" placeholder="Tu nombre">
+      </div>
+      <div class="mb-2">
+        <label for="e1Color" class="form-label">Color de fondo:</label>
+        <input type="color" id="e1Color" class="form-control form-control-color">
+      </div>
+      <button class="btn btn-success" id="e1Guardar">Guardar preferencias</button>
+      <button class="btn btn-danger" id="e1Reset">Restablecer preferencias</button>
+      <p class="mt-3 fw-bold" id="e1Saludo"></p>
+    </div>
+  </div>
+
+  <!-- ================= EJERCICIO 2 ================= -->
+  <div class="card mb-4">
+    <div class="card-header bg-success text-white">
+      Ejercicio 2 - Contador de visitas (localStorage)
+    </div>
+    <div class="card-body">
+      <p id="e2Contador" class="fs-5 fw-bold"></p>
+      <button class="btn btn-warning" id="e2Reset">Reiniciar contador</button>
+    </div>
+  </div>
+
+  <!-- ================= EJERCICIO 3 ================= -->
+  <div class="card mb-4">
+    <div class="card-header bg-warning">
+      Ejercicio 3 - sessionStorage (datos temporales)
+    </div>
+    <div class="card-body">
+      <input type="text" id="e3Nombre" class="form-control mb-2" placeholder="Nombre">
+      <input type="text" id="e3Curso" class="form-control mb-2" placeholder="Curso">
+      <p class="text-muted">
+        Los datos se guardan en sessionStorage. Se mantienen al recargar la página,
+        pero desaparecen al cerrar la pestaña o el navegador.
+      </p>
+    </div>
+  </div>
+
+  <!-- ================= EJERCICIO 4 ================= -->
+  <div class="card mb-4">
+    <div class="card-header bg-info text-white">
+      Ejercicio 4 - Comparativa localStorage vs sessionStorage
+    </div>
+    <div class="card-body">
+      <input type="text" id="e4Texto" class="form-control mb-2" placeholder="Escribe algo">
+      <button class="btn btn-primary" id="e4Local">Guardar en localStorage</button>
+      <button class="btn btn-secondary" id="e4Session">Guardar en sessionStorage</button>
+      <hr>
+      <p>localStorage: <span id="e4LocalValue" class="fw-bold"></span></p>
+      <p>sessionStorage: <span id="e4SessionValue" class="fw-bold"></span></p>
+    </div>
+  </div>
+
+  <!-- ================= EJERCICIO 5 ================= -->
+  <div class="card mb-4">
+    <div class="card-header bg-dark text-white">
+      Ejercicio 5 - Lista de tareas (localStorage + sincronización)
+    </div>
+    <div class="card-body">
+      <div class="input-group mb-3">
+        <input type="text" id="e5Input" class="form-control" placeholder="Nueva tarea">
+        <button class="btn btn-success" id="e5Add">Añadir</button>
+      </div>
+      <ul class="list-group" id="e5Lista"></ul>
+    </div>
+  </div>
+</div>
+
+<script>
+/* ========== EJERCICIO 1 ========== */
+const e1Nombre = document.getElementById("e1Nombre");
+const e1Color = document.getElementById("e1Color");
+const e1Saludo = document.getElementById("e1Saludo");
+const body = document.getElementById("body");
+
+// Restaurar datos guardados al cargar la página
+const nombreGuardado = localStorage.getItem("e1Nombre");
+const colorGuardado = localStorage.getItem("e1Color");
+
+if (nombreGuardado) {
+  e1Nombre.value = nombreGuardado;
+  e1Saludo.textContent = "Hola, " + nombreGuardado;
+}
+
+// Aplicar color de fondo automáticamente
+if (colorGuardado) {
+  body.style.backgroundColor = colorGuardado;
+  e1Color.value = colorGuardado;
+}
+
+// Cambiar color de fondo en tiempo real
+e1Color.addEventListener("input", (event) => {
+  const nuevoColor = event.target.value;
+  body.style.backgroundColor = nuevoColor;
+});
+
+e1Color.addEventListener("change", (event) => {
+  const nuevoColor = event.target.value;
+  body.style.backgroundColor = nuevoColor;
+});
+
+// Guardar preferencias
+document.getElementById("e1Guardar").addEventListener("click", () => {
+  const nombre = e1Nombre.value.trim();
+  const color = e1Color.value;
+  
+  if (nombre === "") {
+    alert("Por favor, introduce tu nombre");
+    return;
+  }
+  
+  localStorage.setItem("e1Nombre", nombre);
+  localStorage.setItem("e1Color", color);
+  e1Saludo.textContent = "Hola, " + nombre + " ✓ Preferencias guardadas";
+  
+  // Aplicar el color de fondo
+  body.setAttribute("style", "background-color: " + color + " !important;");
+  e1Color.value = color;
+});
+
+// Restablecer preferencias
+document.getElementById("e1Reset").addEventListener("click", () => {
+  if (confirm("¿Estás seguro de que deseas restablecer tus preferencias?")) {
+    localStorage.removeItem("e1Nombre");
+    localStorage.removeItem("e1Color");
+    e1Nombre.value = "";
+    e1Color.value = "#ffffff";
+    e1Saludo.textContent = "";
+    body.style.backgroundColor = "";
+  }
+});
+
+/* ========== EJERCICIO 2 ========== */
+function mostrarVisitas() {
+  let visitas = Number(localStorage.getItem("e2Visitas")) || 0;
+  visitas++;
+  localStorage.setItem("e2Visitas", visitas);
+  
+  const e2Contador = document.getElementById("e2Contador");
+  const mensaje = visitas === 1 
+    ? "Has visitado esta página 1 vez."
+    : "Has visitado esta página " + visitas + " veces.";
+  e2Contador.textContent = mensaje;
+}
+
+mostrarVisitas();
+
+document.getElementById("e2Reset").addEventListener("click", () => {
+  if (confirm("¿Deseas reiniciar el contador de visitas?")) {
+    localStorage.removeItem("e2Visitas");
+    document.getElementById("e2Contador").textContent = "Contador reiniciado. Recarga la página para que empiece de nuevo.";
+  }
+});
+
+/* ========== EJERCICIO 3 ========== */
+const e3Nombre = document.getElementById("e3Nombre");
+const e3Curso = document.getElementById("e3Curso");
+
+e3Nombre.value = sessionStorage.getItem("e3Nombre") || "";
+e3Curso.value = sessionStorage.getItem("e3Curso") || "";
+
+e3Nombre.addEventListener("input", () => {
+  sessionStorage.setItem("e3Nombre", e3Nombre.value);
+});
+e3Curso.addEventListener("input", () => {
+  sessionStorage.setItem("e3Curso", e3Curso.value);
+});
+
+/* ========== EJERCICIO 4 ========== */
+const e4Texto = document.getElementById("e4Texto");
+
+function mostrarE4() {
+  document.getElementById("e4LocalValue").textContent =
+    localStorage.getItem("e4Dato") || "(vacío)";
+  document.getElementById("e4SessionValue").textContent =
+    sessionStorage.getItem("e4Dato") || "(vacío)";
+}
+
+document.getElementById("e4Local").addEventListener("click", () => {
+  localStorage.setItem("e4Dato", e4Texto.value);
+  mostrarE4();
+});
+
+document.getElementById("e4Session").addEventListener("click", () => {
+  sessionStorage.setItem("e4Dato", e4Texto.value);
+  mostrarE4();
+});
+
+mostrarE4();
+
+/* ========== EJERCICIO 5 ========== */
+let tareas = JSON.parse(localStorage.getItem("e5Tareas")) || [];
+
+const e5Lista = document.getElementById("e5Lista");
+const e5Input = document.getElementById("e5Input");
+
+function guardarTareas() {
+  localStorage.setItem("e5Tareas", JSON.stringify(tareas));
+}
+
+function mostrarTareas() {
+  e5Lista.innerHTML = "";
+  tareas.forEach((tarea, index) => {
+    const li = document.createElement("li");
+    li.className = "list-group-item d-flex justify-content-between align-items-center";
+    li.textContent = tarea.texto;
+
+    const btn = document.createElement("button");
+    btn.className = "btn btn-sm btn-danger";
+    btn.textContent = "Eliminar";
+    btn.addEventListener("click", () => {
+      tareas.splice(index, 1);
+      guardarTareas();
+      mostrarTareas();
+    });
+
+    li.appendChild(btn);
+    e5Lista.appendChild(li);
+  });
+}
+
+document.getElementById("e5Add").addEventListener("click", () => {
+  if (e5Input.value.trim() !== "") {
+    tareas.push({ texto: e5Input.value });
+    e5Input.value = "";
+    guardarTareas();
+    mostrarTareas();
+  }
+});
+
+
+
+
+
+
+
+window.addEventListener("storage", (event) => {
+  if (event.key === "e5Tareas") {
+    tareas = JSON.parse(event.newValue) || [];
+    mostrarTareas();
+  }
+});
+
+mostrarTareas();
+</script>
+
+</body>
+</html>
